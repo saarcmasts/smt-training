@@ -1,0 +1,33 @@
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+    </tr>
+
+    @for(data of student_list(); track data.name) {
+    <tr>
+        <td>{{data.name}}</td>
+        <td>{{data.age}}</td>
+        <td>{{data.course}}</td>
+    </tr>
+    }
+</table>
+
+
+<hr>
+
+<input type="text" [(ngModel)]="name" placeholder="Name"> <br>
+<input type="number" [(ngModel)]="age" placeholder="Age"> <br>
+<input type="text" [(ngModel)]="course" placeholder="Course"> <br>
+
+<button (click)="addStudent()">Add Student</button>
+
+<hr>
+
+<form [formGroup]="form" (ngSubmit)="addStudentReactive()"> 
+  <input formControlName="name" placeholder="Name"> <br/>
+  <input formControlName="age" type="number" placeholder="Age"> <br/>
+  <input formControlName="course" placeholder="Course"> <br/>
+  <button type="submit">Add Student</button>
+</form>
