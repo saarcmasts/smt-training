@@ -1,0 +1,33 @@
+<table [ngStyle]="setStyle()">
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+    </tr>
+
+    @for(data of student_list(); track data.name) {
+    <tr>
+        <td>{{data.name | uppercase}}</td>
+        <td>{{data.age}}</td>
+        <td>{{data.course | lowercase}}</td>
+    </tr>
+    }
+</table>
+
+
+<hr>
+
+<h4>Name</h4>
+<input #nameElement [ngClass]="name() ? 'green' : 'red'" type="text" [(ngModel)]="name" placeholder="Name"> <br>
+<h4>Age</h4>
+<input type="number" [(ngModel)]="age" placeholder="Age"> <br>
+<h4>Course</h4>
+<input type="text" [(ngModel)]="course" placeholder="Course"> <br>
+<br />
+<button (click)="addStudent()">Add Student</button>
+
+
+
+<hr>
+
+<p [appHighlight]="'lightblue'" *appIfNot="age()>20">Hover over this text to highlight it!</p>
