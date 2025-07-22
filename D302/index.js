@@ -1,30 +1,43 @@
 import express from 'express';
+import https from 'https';
 import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
+
+// CORS Configuration
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-    const q = req.query;
+// API endpoint to fetch random users
+app.get('/random-users', (req, res) => {
+    https.get('https://jsonplaceholder.typicode.com/users', (apiResponse) => {
+        let data = '';
 
-    const isOdd = q.input % 2 !== 0;
+        apiResponse.on('data', (chunk) => {
+            data += chunk;
+        });
 
-    res.json({
-        isOdd
+        apiResponse.on('end', () => {
+            try {
+                const users = JSON.parse(data);
+                res.json(users);
+            } catch (error) {
+                console.error('JSON Parse Error:', error);
+                res.status(500).json({ error: 'Failed to parse API response' });
+            }
+        });
+    }).on('error', (err) => {
+        console.error('API Request Error:', err);
+        res.status(500).json({ error: 'Failed to fetch from randomuser API' });
     });
 });
 
-// app.get('/:input', (req, res) => {
-//     const q = req.params;
-//     res.send('From Get Endpoint (P): ' + q.input);
-// });
-
-// app.post('/', (req, res) => {
-//     const q = req.body;
-//     res.send('From Post Endpoint (B): ' + q.input);
-// });
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Server Error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

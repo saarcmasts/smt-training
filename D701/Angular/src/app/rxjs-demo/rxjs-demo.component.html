@@ -1,0 +1,102 @@
+<div class="rxjs-demo">
+  <h2>RxJS Features Demo</h2>
+
+  <!-- Error Display -->
+  @if (error; as err) {
+    <div class="error-message">
+      {{ err }}
+    </div>
+  }
+
+  <!-- Loading Indicator -->
+  @if (loading) {
+    <div class="loading">Loading...</div>
+  }
+
+  <!-- User List Section -->
+  <section class="section">
+    <h3>1. Basic Observable (User List)</h3>
+    <button (click)="loadUsers()">Load Users</button>
+    @if (users$ | async; as users) {
+      <ul>
+        @for (user of users; track user.id) {
+          <li>{{ user.name }} ({{ user.age }})</li>
+        }
+      </ul>
+    }
+  </section>
+
+  <!-- Delayed Response Section -->
+  <section class="section">
+    <h3>2. Delayed Response with Retry</h3>
+    <button (click)="loadUsersWithDelay()">Load Users (Delayed)</button>
+  </section>
+
+  <!-- Error Handling Section -->
+  <section class="section">
+    <h3>3. Error Handling</h3>
+    <button (click)="testError()">Test Error Handling</button>
+  </section>
+
+  <!-- Search Section -->
+  <section class="section">
+    <h3>4. Search with Debounce</h3>
+    <input [formControl]="searchControl" placeholder="Search users..." />
+    @if (filteredUsers$ | async; as filteredUsers) {
+      <ul>
+        @for (user of filteredUsers; track user.id) {
+          <li>{{ user.name }}</li>
+        }
+      </ul>
+    }
+  </section>
+
+  <!-- Stream Data Section -->
+  <section class="section">
+    <h3>5. Streaming Data</h3>
+    @if (streamData$ | async; as count) {
+      <div>Current Count: {{ count }}</div>
+    }
+  </section>
+
+  <!-- Real-time Updates Section -->
+  <section class="section">
+    <h3>6. Real-time Updates</h3>
+    @if (updates$ | async; as update) {
+      <div>Last Update: {{ update.timestamp | date: 'medium' }}</div>
+    }
+  </section>
+
+  <!-- Combined Data Section -->
+  <section class="section">
+    <h3>7. Combined Data</h3>
+    @if (combinedData$ | async; as data) {
+      <div>
+        Users Count: {{ data.users.length }}<br />
+        Last Update: {{ data.lastUpdate | date: 'medium' }}
+      </div>
+    }
+  </section>
+
+  <!-- Cached Data Section -->
+  <section class="section">
+    <h3>8. Cached Data</h3>
+    @if (cachedUsers$ | async; as users) {
+      <div>Cached Users Count: {{ users.length }}</div>
+    }
+  </section>
+
+  <!-- Add User Form -->
+  <section class="section">
+    <h3>9. Add User (Subject Example)</h3>
+    <form (ngSubmit)="addUser()">
+      <div>
+        <input [formControl]="nameControl" placeholder="Name" />
+      </div>
+      <div>
+        <input [formControl]="ageControl" type="number" placeholder="Age" />
+      </div>
+      <button type="submit">Add User</button>
+    </form>
+  </section>
+</div>
