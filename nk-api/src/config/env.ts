@@ -1,0 +1,1 @@
+export const DATABASE_URL = process.env.DATABASE_URL || 'postgres://postgres:admin123!@localhost:5432/postgres';

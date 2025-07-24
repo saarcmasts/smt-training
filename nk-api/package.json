@@ -1,0 +1,25 @@
+{
+  "name": "nk-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsx watch --env-file=.env src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/pg": "^8.15.4",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.3"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.4.0",
+    "drizzle-orm": "^0.44.3",
+    "joi": "^17.13.3",
+    "pg": "^8.16.3"
+  }
+}
