@@ -1,0 +1,1 @@
+ALTER TABLE "auth" ADD COLUMN "email" varchar NOT NULL;

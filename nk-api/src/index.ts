@@ -20,7 +20,14 @@ const init = async () => {
 
     const server = Hapi.server({
         port: 3000,
-        host: 'localhost'
+        host: 'localhost',
+        routes: {
+            cors: {
+                origin: ['*'], // Allow all origins
+                additionalHeaders: ['X-Requested-With', 'Authorization'],
+                additionalExposedHeaders: ['X-Total-Count']
+            }
+        }
     });
 
     await server.register(SamplePlugin);
@@ -31,27 +38,35 @@ const init = async () => {
         method: 'POST',
         path: '/login',
         handler: async (request, h) => {
-            const { loginId, password } = zodLoginSchema.parse(request.payload);
+            try {
+                const { loginId, password } = zodLoginSchema.parse(request.payload);
 
-            const user = await db.query.Auth.findFirst({
-                where: (t, { eq }) => eq(t.loginId, loginId)
-            });
+                const user = await db.query.Auth.findFirst({
+                    where: (t, { eq }) => eq(t.loginId, loginId)
+                });
 
-            add(1, 2); // Example usage of the add function
+                // const user = await db.select()
+                //     .from(Auth)
+                //     .where(eq(Auth.loginId, loginId))
 
-            // const user = await db.select()
-            //     .from(Auth)
-            //     .where(eq(Auth.loginId, loginId))
+                if (!user) {
+                    return h.response({ message: 'Invalid login credentials' }).code(401);
+                }
 
-            if (!user) {
-                return h.response({ message: 'Invalid login credentials' }).code(401);
+
+                return {
+                    user,
+                    add: server.methods.add(1, 2), // Example usage of the add method
+                };
+            } catch (error) {
+
+                console.error('Error during login:', error);
+
+                // if (error instanceof z.ZodError) {
+                //     return h.response({ message: error.errors }).code(400);
+                // }
+                return h.response({ message: 'Internal Server Error' }).code(500);
             }
-
-
-            return {
-                user,
-                add: server.methods.add(1, 2), // Example usage of the add method
-            };
         }
     });
 

@@ -8,6 +8,13 @@
       "when": 1753419269640,
       "tag": "0000_steep_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753438651513,
+      "tag": "0001_friendly_skullbuster",
+      "breakpoints": true
     }
   ]
 }
