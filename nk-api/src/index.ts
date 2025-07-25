@@ -1,7 +1,20 @@
 import Hapi from '@hapi/hapi';
 import Joi from 'joi';
+import z from 'zod';
+import { eq } from 'drizzle-orm';
 
+import SamplePlugin from './plugin/sample';
 import db from './db';
+import { Auth } from './drizzle';
+
+const zodLoginSchema = z.object({
+    loginId: z.email(),
+    password: z.string().min(6, { message: 'Password is required' })
+})
+
+const add = (a: number, b: number): number => {
+    return a + b;
+};
 
 const init = async () => {
 
@@ -10,55 +23,35 @@ const init = async () => {
         host: 'localhost'
     });
 
-    server.ext({
-        type: 'onRequest',
-        method: function (request, h) {
-            // Change all requests to '/test'
+    await server.register(SamplePlugin);
 
-            console.log('Request received:', request.method.toUpperCase(), request.path);
-
-            return h.continue;
-        }
-    });
-
-    server.ext({
-        type: 'onPreResponse',
-        method: function (request, h) {
-            // Change all requests to '/test'
-
-            console.log('On pre-response:', request.method.toUpperCase(), request.path);
-
-            return h.continue;
-        }
-    });
+    server.method('add', add);
 
     server.route({
-        method: 'GET',
-        path: '/',
+        method: 'POST',
+        path: '/login',
         handler: async (request, h) => {
-            try {
+            const { loginId, password } = zodLoginSchema.parse(request.payload);
 
-                console.log("Inside the handler");
+            const user = await db.query.Auth.findFirst({
+                where: (t, { eq }) => eq(t.loginId, loginId)
+            });
 
-                request.params;
-                request.payload;
+            add(1, 2); // Example usage of the add function
 
-                const tables = await db.execute('select * from user');
+            // const user = await db.select()
+            //     .from(Auth)
+            //     .where(eq(Auth.loginId, loginId))
 
-                return tables;
-            } catch (error) {
-                console.error('Error fetching users:');
-                console.error(error);
-                return h.response('Internal Server Error').code(500);
+            if (!user) {
+                return h.response({ message: 'Invalid login credentials' }).code(401);
             }
-        },
-        options: {
-            // validate: {
-            //     query: {
-            //         username: Joi.string().min(1).max(20),
-            //         password: Joi.string().min(7)
-            //     }
-            // }
+
+
+            return {
+                user,
+                add: server.methods.add(1, 2), // Example usage of the add method
+            };
         }
     });
 

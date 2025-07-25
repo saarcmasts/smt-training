@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx watch --env-file=.env src/index.ts"
+    "start": "tsx watch --env-file=.env src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +23,7 @@
     "@hapi/hapi": "^21.4.0",
     "drizzle-orm": "^0.44.3",
     "joi": "^17.13.3",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "zod": "^4.0.10"
   }
 }
