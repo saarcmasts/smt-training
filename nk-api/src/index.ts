@@ -1,5 +1,6 @@
 import Hapi from '@hapi/hapi';
 import { AuthRouter } from './routes';
+import { errorHandlerPlugin } from './plugin';
 
 const init = async () => {
 
@@ -12,6 +13,15 @@ const init = async () => {
                 additionalHeaders: ['X-Requested-With', 'Authorization'],
                 additionalExposedHeaders: ['X-Total-Count']
             }
+        }
+    });
+
+    // Register error handler plugin first
+    await server.register({
+        plugin: errorHandlerPlugin,
+        options: {
+            showStackTrace: process.env.NODE_ENV === 'development',
+            logErrors: true
         }
     });
 
