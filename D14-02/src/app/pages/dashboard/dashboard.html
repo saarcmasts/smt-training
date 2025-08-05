@@ -1,0 +1,30 @@
+<!-- In operator in Angular -->
+
+<!-- @for (item of data(); track item.color) {
+@let display = 'show' in item;
+@if (item.show) {
+<div class="color-box" [ngStyle]="{ backgroundColor: item.color }">
+    <p>{{ item.color }}</p>
+</div>
+}
+} -->
+
+<!-- Exponential Operator -->
+<!-- <h1>{{4**3}}</h1> -->
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <input type="text" formControlName="name" placeholder="Name">
+    <input type="text" formControlName="email" placeholder="Email">
+    <input type="number" formControlName="phone" placeholder="Phone">
+    <div formArrayName="address">
+        <div *ngFor="let address of getAddress(); let i = index" [formGroupName]="i" class="address">
+            <h4>Address {{i + 1}}</h4>
+            <input type="text" formControlName="street" placeholder="Street">
+            <input type="text" formControlName="city" placeholder="City">
+            <input type="text" formControlName="state" placeholder="State">
+            <input type="text" formControlName="zip" placeholder="Zip">
+        </div>
+    </div>
+    <button (click)="addAddress()">Add Address</button> <br/>
+    <button type="submit">Submit</button>
+</form>

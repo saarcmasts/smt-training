@@ -1,0 +1,14 @@
+<div class="flex h-full">
+    <div class="md:w-8/12 sm:hidden h-full">col 1</div>
+    <div class="md:w-4/12 sm:w-full h-full">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="h-full">
+            <div class="flex flex-col items-center justify-center h-full w-[350px] mx-auto">
+                <h1 class="text-2xl font-bold mb-4">Login</h1>
+                <app-text-field label="Email" placeholder="Enter your email" formControlName="email"></app-text-field>
+                <app-text-field label="Password" placeholder="Enter your password"
+                    formControlName="password"></app-text-field>
+                <app-button variant="secondary" label="Login" type="submit"></app-button>
+            </div>
+        </form>
+    </div>
+</div>
