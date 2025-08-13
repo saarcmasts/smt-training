@@ -17,6 +17,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule, ReactiveFormsModu
 export class TextField implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = '';
+  @Input() type: string = 'text';
+  @Input() required: boolean = false;
 
   value: string = '';
   disabled: boolean = false;

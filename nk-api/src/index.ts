@@ -1,6 +1,7 @@
 import Hapi from '@hapi/hapi';
-import { AuthRouter } from './routes';
+import { AuthRouter, dashboardRoute } from './routes';
 import { errorHandlerPlugin } from './plugin';
+import { jwtPlugin } from './plugin/jwt';
 
 const init = async () => {
 
@@ -26,6 +27,8 @@ const init = async () => {
     });
 
     await server.register(AuthRouter);
+    await server.register(dashboardRoute);
+    await server.register(jwtPlugin);
 
     await server.start();
     console.log('Server running on %s', server.info.uri);

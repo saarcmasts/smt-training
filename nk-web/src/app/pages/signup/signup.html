@@ -1,0 +1,31 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <form class="w-full max-w-md bg-white p-6 rounded-lg shadow-md" (ngSubmit)="onSubmit()" [formGroup]="signupForm">
+        <h2 class="text-lg font-bold mb-4">Sign Up</h2>
+        <div class="mb-4">
+            <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
+            <app-text-field id="firstname" formControlName="firstname"
+                placeholder="Enter your first name"></app-text-field>
+        </div>
+        <div class="mb-4">
+            <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
+            <app-text-field id="lastname" formControlName="lastname"
+                placeholder="Enter your last name"></app-text-field>
+        </div>
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <app-text-field id="email" formControlName="email" placeholder="Enter your email"></app-text-field>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <app-text-field id="password" type="password" formControlName="password"
+                placeholder="Enter your password"></app-text-field>
+        </div>
+        <div class="mb-4">
+            <label for="confirmpassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <app-text-field id="confirmpassword" type="password" formControlName="confirmpassword"
+                placeholder="Confirm your password"></app-text-field>
+        </div>
+        <button type="submit" [disabled]="signupForm.invalid" class="w-full bg-blue-500 text-white p-2 rounded">Sign
+            Up</button>
+    </form>
+</div>

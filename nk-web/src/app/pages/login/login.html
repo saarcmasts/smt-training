@@ -1,14 +1,17 @@
 <div class="flex h-full">
-    <div class="w-8/12 h-full">col 1</div>
+    <div class="w-8/12 h-full bg-cover bg-center bg-no-repeat"></div>
     <div class="w-4/12 h-full">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="h-full">
             <div class="flex flex-col items-center justify-center h-full w-[350px] mx-auto">
                 <h1 class="text-2xl font-bold mb-4">Login</h1>
                 <!-- <app-text-field label="Email" placeholder="Enter your email"></app-text-field>
-                <app-text-field label="Password" placeholder="Password"></app-text-field> -->
-                <input type="text" formControlName="email" placeholder="Enter your email" class="px-2 py-1 border rounded mb-2 w-full">
-                <input type="password" formControlName="password" placeholder="Password" class="px-2 py-1 border rounded mb-4 w-full">
+    <app-text-field label="Password" placeholder="Password"></app-text-field> -->
+                <input type="text" formControlName="email" placeholder="Enter your email"
+                    class="px-2 py-1 border rounded mb-2 w-full">
+                <input type="password" formControlName="password" placeholder="Password"
+                    class="px-2 py-1 border rounded mb-4 w-full">
                 <app-button type="submit" variant="secondary" label="Login"></app-button>
+                forgot password? <a href="#" (click)="onForgotPassword()" class="text-blue-500">Click here</a>
             </div>
         </form>
     </div>

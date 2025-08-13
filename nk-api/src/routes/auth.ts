@@ -1,5 +1,5 @@
 import { Server } from '@hapi/hapi';
-import { LoginController } from '../controller/auth';
+import { LoginController, SignupController } from '../controller/auth';
 
 const authRoute = {
     name: 'authRoute',
@@ -10,6 +10,12 @@ const authRoute = {
             method: 'POST',
             path: `${pathPrefix}/login`,
             handler: LoginController
+        });
+
+        server.route({
+            method: 'POST',
+            path: `${pathPrefix}/signup`,
+            handler: SignupController
         });
     }
 };

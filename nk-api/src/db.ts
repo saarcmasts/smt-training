@@ -8,6 +8,6 @@ const pool = new Pool({
     connectionString: DATABASE_URL,
 });
 
-const db = drizzle({ client: pool, schema });
+const db = drizzle({ client: pool, schema, logger: true });
 
 export default db;

@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // import { TextField } from "../../components/form/text-field/text-field";
 import { Button } from "../../components/button/button";
+import { RouterModule } from '@angular/router';
+import { Inject } from '@angular/core';
+import { Router } from '@angular/router'
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +17,8 @@ import { Button } from "../../components/button/button";
 export class Login {
 
   loginForm: FormGroup;
-
-  constructor() {
+  private authservice = inject(AuthService);
+  constructor(private router: Router) {
     this.loginForm = new FormGroup({
       email: new FormControl('email', [Validators.required, Validators.email]),
       password: new FormControl('password', [Validators.required])
@@ -24,20 +28,25 @@ export class Login {
   async onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      console.log('Login submitted:', { email, password });
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/auth/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ loginId: email, password })
       });
-
-      console.log('Response status:', response.status);
-
+      const data = await response.json();
+      localStorage.setItem('auth_token', data.token);
+      this.router.navigate(['/dashboard']);
     } else {
       console.error('Form is invalid');
     }
+  }
+
+  onForgotPassword() {
+    this.authservice.forgotPassword(this.loginForm.value.email).subscribe((res: unknown) => {
+      console.log(res);
+    });
   }
 
 }

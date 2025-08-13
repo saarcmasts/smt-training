@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthStore } from '../../store/auth.store';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,10 +30,22 @@ import { CommonModule } from '@angular/common';
     </div>
   `
 })
-export class DashboardComponent {
-  constructor(public store: AuthStore) {}
+export class Dashboard {
+  constructor(public store: AuthStore, private authService: AuthService) { }
+
+  ngOnInit() {
+    this.getData();
+  }
 
   logout() {
     this.store.logout();
+  }
+
+  async getData() {
+    this.authService.dashboard().subscribe({
+      next: (data) => {
+        console.log(data);
+      }
+    });
   }
 }
